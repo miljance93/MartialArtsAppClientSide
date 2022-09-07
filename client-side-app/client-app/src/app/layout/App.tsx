@@ -51,7 +51,7 @@ function App() {
   if (loading) return <LoadingComponent content="Loading app" />;
 
   return (
-    <>
+    <div>
       <NavBar openForm={handleFormOpen} />
       <Container style={{ margin: "7em" }}>
         <MartialArtDashboard
@@ -65,7 +65,7 @@ function App() {
           deleteMartialArt={handleDeleteMartialArt}
         />
       </Container>
-    </>
+    </div>
   );
 }
 
