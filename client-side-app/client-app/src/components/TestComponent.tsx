@@ -1,23 +1,20 @@
 import Props from "../app/models/properties";
 
-const TestComponent = ({ placeholder }: Props) => {
-  const nekaFunkcija = () => {
-    console.log("nesto logujem");
-  };
-
-  const setName = () => {
-    console.log("set name");
-  };
-
+const TestComponent = ({
+  placeholder,
+  value,
+  onChangeHandler,
+  onClickHandler,
+}: Props) => {
   return (
     <div>
       <input
         type="text"
         placeholder={placeholder}
-        value="Stefan"
-        onChange={setName}
+        value={value}
+        onChange={onChangeHandler}
       />
-      <button onClick={nekaFunkcija}>Submit</button>
+      <button onClick={onClickHandler}>Submit</button>
     </div>
   );
 };

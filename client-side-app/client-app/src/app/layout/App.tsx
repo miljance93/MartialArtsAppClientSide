@@ -2,11 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container } from "semantic-ui-react";
 import MartialArtDashboard from "../../components/MartialArtDashboard";
+import TestComponent from "../../components/TestComponent";
 import agent from "../api/agent";
 import { MartialArt } from "../models/martialArt";
 import LoadingComponent from "./LoadingComponent";
 import NavBar from "./NavBar";
 import "./styles.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   //Sta su useState-s?
@@ -51,21 +53,48 @@ function App() {
   if (loading) return <LoadingComponent content="Loading app" />;
 
   return (
-    <div>
+    <BrowserRouter>
       <NavBar openForm={handleFormOpen} />
       <Container style={{ margin: "7em" }}>
-        <MartialArtDashboard
-          martialArts={martialArts}
-          selectedMartialArt={selectedMartialArt}
-          selectMartialArt={handleSelectMartialArt}
-          cancelSelectMartialArt={handleCancelSelectMartialArt}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
-          deleteMartialArt={handleDeleteMartialArt}
-        />
+        <Routes>
+          <Route
+            path="/martialartdashboard"
+            element={
+              <MartialArtDashboard
+                martialArts={martialArts}
+                selectedMartialArt={selectedMartialArt}
+                selectMartialArt={handleSelectMartialArt}
+                cancelSelectMartialArt={handleCancelSelectMartialArt}
+                editMode={editMode}
+                openForm={handleFormOpen}
+                closeForm={handleFormClose}
+                deleteMartialArt={handleDeleteMartialArt}
+              />
+            }
+          ></Route>
+        </Routes>
       </Container>
-    </div>
+    </BrowserRouter>
+
+    // <div>
+    //   <NavBar openForm={handleFormOpen} />
+    //   <Container style={{ margin: "7em" }}>
+    //     {/* <Router path="/" component={MartialArtDashboard} />
+    //     <Router path="/about" component={AboutComponent} />
+    //     <Router path="/account" component={AccountComponent} /> */}
+    //     <MartialArtDashboard
+    //       martialArts={martialArts}
+    //       selectedMartialArt={selectedMartialArt}
+    //       selectMartialArt={handleSelectMartialArt}
+    //       cancelSelectMartialArt={handleCancelSelectMartialArt}
+    //       editMode={editMode}
+    //       openForm={handleFormOpen}
+    //       closeForm={handleFormClose}
+    //       deleteMartialArt={handleDeleteMartialArt}
+    //     />
+    //     {/* <TestComponent placeholder='' /> */}
+    //   </Container>
+    // </div>
   );
 }
 
