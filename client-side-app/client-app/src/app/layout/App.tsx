@@ -54,8 +54,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar openForm={handleFormOpen} />
       <Container style={{ margin: "7em" }}>
+        <NavBar openForm={handleFormOpen}></NavBar>
         <Routes>
           <Route
             path="/martialartdashboard"
