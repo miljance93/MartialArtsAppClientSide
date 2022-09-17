@@ -21,11 +21,13 @@ function App() {
 
   //Sta je useEffect?
   useEffect(() => {
-    axios.get("https://localhost:5001/martialart").then((response) => {
-      setMartialArts(response.data.value);
-      console.log(response.data.value);
-      setLoading(false);
-    });
+    axios
+      .get("https://martialartapplication.herokuapp.com/")
+      .then((response) => {
+        setMartialArts(response.data.value);
+        console.log(response.data.value);
+        setLoading(false);
+      });
   }, []);
 
   function handleSelectMartialArt(id: string) {
