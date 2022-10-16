@@ -1,83 +1,32 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import MartialArtDashboard from "../../components/MartialArtDashboard";
-import TestComponent from "../../components/TestComponent";
-import agent from "../api/agent";
-import { MartialArt } from "../models/martialArt";
+import { useStore } from "../stores/store";
 import LoadingComponent from "./LoadingComponent";
 import NavBar from "./NavBar";
 import "./styles.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
 function App() {
-  //Sta su useState-s?
-  const [martialArts, setMartialArts] = useState<MartialArt[]>([]);
-  const [selectedMartialArt, setSelectedMartialArt] = useState<
-    MartialArt | undefined
-  >(undefined);
-  const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { martialArtStore } = useStore();
 
   //Sta je useEffect?
   useEffect(() => {
-    axios
-      .get("https://martialartapplication.herokuapp.com/")
-      .then((response) => {
-        setMartialArts(response.data.value);
-        console.log(response.data.value);
-        setLoading(false);
-      });
-  }, []);
-
-  function handleSelectMartialArt(id: string) {
-    setSelectedMartialArt(martialArts.find((x) => x.id.toString() === id));
-  }
-
-  function handleCancelSelectMartialArt() {
-    setSelectedMartialArt(undefined);
-  }
-
-  function handleFormOpen(id?: string) {
-    id ? handleSelectMartialArt(id) : handleCancelSelectMartialArt();
-    setEditMode(true);
-  }
-
-  function handleFormClose() {
-    setEditMode(false);
-  }
-
-  function handleDeleteMartialArt(id: string) {
-    agent.MartialArts.delete(id);
-    window.location.reload();
-  }
-
-  if (loading) return <LoadingComponent content="Loading app" />;
+    martialArtStore.loadMartialArts();
+  }, [martialArtStore]);
+  if (martialArtStore.loadingInitial)
+    return <LoadingComponent content="Loading app" />;
 
   return (
-    <BrowserRouter>
+    // Sa MobX-om
+    <>
+      <NavBar />
       <Container style={{ margin: "7em" }}>
-        <NavBar openForm={handleFormOpen}></NavBar>
-        <Routes>
-          <Route
-            path="/martialartdashboard"
-            element={
-              <MartialArtDashboard
-                martialArts={martialArts}
-                selectedMartialArt={selectedMartialArt}
-                selectMartialArt={handleSelectMartialArt}
-                cancelSelectMartialArt={handleCancelSelectMartialArt}
-                editMode={editMode}
-                openForm={handleFormOpen}
-                closeForm={handleFormClose}
-                deleteMartialArt={handleDeleteMartialArt}
-              />
-            }
-          ></Route>
-        </Routes>
+        <MartialArtDashboard />
       </Container>
-    </BrowserRouter>
+    </>
 
+    // Bez MobX-a
     // <div>
     //   <NavBar openForm={handleFormOpen} />
     //   <Container style={{ margin: "7em" }}>
@@ -100,4 +49,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

@@ -1,54 +1,23 @@
 import { Grid } from "semantic-ui-react";
-import { MartialArt } from "../app/models/martialArt";
 import MartialArtList from "./MartialArtList";
 import MartialArtDetail from "../app/details/MartialArtDetail";
 import MartialArtForm from "./form/MartialArtForm";
+import { useStore } from "../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-  martialArts: MartialArt[];
-  selectedMartialArt: MartialArt | undefined;
-  selectMartialArt: (id: string) => void;
-  cancelSelectMartialArt: () => void;
-  editMode: boolean;
-  openForm: (id: string) => void;
-  closeForm: () => void;
-  deleteMartialArt: (id: string) => void;
-}
+export default observer(function MartialArtDashboard() {
+  const { martialArtStore } = useStore();
+  const { selectedMartialArt, editMode } = martialArtStore;
 
-export default function MartialArtDashboard({
-  martialArts,
-  selectedMartialArt,
-  selectMartialArt,
-  cancelSelectMartialArt,
-  editMode,
-  openForm,
-  closeForm,
-  deleteMartialArt,
-}: Props) {
   return (
     <Grid>
       <Grid.Column width="10">
-        <MartialArtList
-          martialArts={martialArts}
-          selectMartialArt={selectMartialArt}
-          deleteMartialArt={deleteMartialArt}
-        />
+        <MartialArtList />
       </Grid.Column>
       <Grid.Column width="6">
-        {selectedMartialArt && !editMode && (
-          <MartialArtDetail
-            martialArt={selectedMartialArt}
-            cancelSelectMartialArt={cancelSelectMartialArt}
-            openForm={openForm}
-          />
-        )}
-        {editMode && (
-          <MartialArtForm
-            closeForm={closeForm}
-            martialArt={selectedMartialArt}
-          />
-        )}
+        {selectedMartialArt && !editMode && <MartialArtDetail />}
+        {editMode && <MartialArtForm />}
       </Grid.Column>
     </Grid>
   );
-}
+});

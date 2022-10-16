@@ -1,18 +1,10 @@
-import React from "react";
+import { observer } from "mobx-react-lite";
 import { Button, Item, Segment } from "semantic-ui-react";
-import { MartialArt } from "../app/models/martialArt";
+import { useStore } from "../app/stores/store";
 
-interface Props {
-  martialArts: MartialArt[];
-  selectMartialArt: (id: string) => void;
-  deleteMartialArt: (id: string) => void;
-}
-
-export default function MartialArtList({
-  martialArts,
-  selectMartialArt,
-  deleteMartialArt,
-}: Props) {
+export default observer(function MartialArtList() {
+  const { martialArtStore } = useStore();
+  const { deleteMartialArt, martialArts } = martialArtStore;
   return (
     <Segment>
       <Item.Group divided>
@@ -23,13 +15,15 @@ export default function MartialArtList({
               <Item.Description>{martialArt.shortDescription}</Item.Description>
               <Item.Extra>
                 <Button
-                  onClick={() => selectMartialArt(martialArt.id.toString())}
+                  onClick={() =>
+                    martialArtStore.selectMartialArt(martialArt.id)
+                  }
                   floated="right"
                   content="View"
                   color="blue"
                 />
                 <Button
-                  onClick={() => deleteMartialArt(martialArt.id.toString())}
+                  onClick={() => deleteMartialArt(martialArt.id)}
                   floated="right"
                   content="Delete"
                   color="red"
@@ -41,4 +35,4 @@ export default function MartialArtList({
       </Item.Group>
     </Segment>
   );
-}
+});

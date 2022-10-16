@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { MartialArt } from "../models/martialArt";
+import { Result} from "../models/Result";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -29,10 +30,10 @@ const requests = {
 }
 
 const MartialArts ={
-    list: () => requests.get<MartialArt[]>('/martialart'),
+    list: () => requests.get<Result<MartialArt[]>>('/martialart'),
     create: (martialArt: MartialArt) => requests.post<MartialArt>('/martialart', martialArt ),
     edit: (martialArt: MartialArt) => requests.put<MartialArt>('/martialart', martialArt ),
-    delete: (id: string) => requests.delete(`/martialart/${id}`),
+    delete: (id: number) => requests.delete(`/martialart/${id}`),
 }
 
 

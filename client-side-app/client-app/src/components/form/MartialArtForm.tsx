@@ -1,20 +1,22 @@
-import axios from "axios";
+import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
-import { MartialArt } from "../../app/models/martialArt";
+import { useStore } from "../../app/stores/store";
 
-interface Props {
-  martialArt: MartialArt | undefined;
-  closeForm: () => void;
-}
-
-export default function MartialArtForm({
-  martialArt: selectedMartialArt,
-  closeForm,
-}: Props) {
+export default observer(function MartialArtForm() {
   //initialising new martial art properties
+
+  const { martialArtStore } = useStore();
+  const {
+    selectedMartialArt,
+    closeForm,
+    createMartialArt,
+    updateMartialArt,
+    loading,
+  } = martialArtStore;
+
   const initalState = selectedMartialArt ?? {
-    id: "",
+    id: 0,
     name: "",
     shortDescription: "",
     longDescription: "",
@@ -29,58 +31,13 @@ export default function MartialArtForm({
     setMartialArt({ ...martialArt, [name]: value });
   }
 
-  //Creating an axios POST method
-  const onCreateSubmit = async () => {
-    const { data } = await axios.post<MartialArt>(
-      "https://localhost:5001/martialart",
-      {
-        name: martialArt.name,
-        shortDescription: martialArt.shortDescription,
-        longDescription: martialArt.longDescription,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
-
-    console.log(data);
-    window.location.reload();
-    return data;
-  };
-
-  //Creating an axios PUT method
-  async function OnEditSubmit() {
-    const { data } = await axios.put<MartialArt>(
-      "https://localhost:5001/martialart",
-      {
-        id: martialArt.id,
-        name: martialArt.name,
-        shortDescription: martialArt.shortDescription,
-        longDescription: martialArt.longDescription,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
-
-    console.log(data);
-    window.location.reload();
-    return data;
-  }
-
   function OnSubmit() {
-    martialArt.id ? OnEditSubmit() : onCreateSubmit();
+    martialArt.id ? updateMartialArt(martialArt) : createMartialArt(martialArt);
   }
 
   return (
-    <Segment clearing onSubmit={OnSubmit}>
-      <Form autoComplete="off">
+    <Segment clearing>
+      <Form autoComplete="off" onSubmit={OnSubmit}>
         <Form.Input
           placeholder="Martial Art name"
           value={martialArt.name}
@@ -109,4 +66,4 @@ export default function MartialArtForm({
       </Form>
     </Segment>
   );
-}
+});

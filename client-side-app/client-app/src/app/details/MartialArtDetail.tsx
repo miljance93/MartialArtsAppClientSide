@@ -1,17 +1,16 @@
 import { Button, Card, Image } from "semantic-ui-react";
-import { MartialArt } from "../models/martialArt";
+import LoadingComponent from "../layout/LoadingComponent";
+import { useStore } from "../stores/store";
 
-interface Props {
-  martialArt: MartialArt;
-  cancelSelectMartialArt: () => void;
-  openForm: (id: string) => void;
-}
+export default function MartialArtDetail() {
+  const { martialArtStore } = useStore();
+  const {
+    selectedMartialArt: martialArt,
+    openForm,
+    cancelSelectedMartialArt,
+  } = martialArtStore;
 
-export default function MartialArtDetail({
-  martialArt,
-  cancelSelectMartialArt,
-  openForm,
-}: Props) {
+  if (!martialArt) return <LoadingComponent />;
   return (
     <Card fluid>
       <Image src={`/assets/categoryImages/${martialArt.name}.jpg`} />
@@ -21,13 +20,13 @@ export default function MartialArtDetail({
         <Card.Description>{martialArt.longDescription}</Card.Description>
         <Button.Group>
           <Button
-            onClick={() => openForm(martialArt.id.toString())}
+            onClick={() => openForm(martialArt.id)}
             basic
             color="blue"
             content="Edit"
           />
           <Button
-            onClick={cancelSelectMartialArt}
+            onClick={cancelSelectedMartialArt}
             basic
             color="grey"
             content="Cancel"
