@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@microsoft/signalr": "^6.0.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -12,7 +13,9 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.54",
     "@types/react": "^18.0.17",
+    "@types/react-calendar": "^3.9.0",
     "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.2",
     "axios": "^0.27.2",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
@@ -30,6 +33,7 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-webpack-plugin": "^3.1.1",
     "file-loader": "^6.2.0",
+    "formik": "^2.2.9",
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
@@ -47,6 +51,7 @@
     "prompts": "^2.4.2",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
+    "react-calendar": "^4.0.0",
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
     "react-refresh": "^0.11.0",
@@ -64,7 +69,8 @@
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "workbox-webpack-plugin": "^6.4.1"
+    "workbox-webpack-plugin": "^6.4.1",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -91,7 +97,7 @@
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^5.3.0"
   },
   "jest": {
     "roots": [

@@ -1,38 +1,41 @@
-import { Button, Card, Image } from "semantic-ui-react";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Grid } from "semantic-ui-react";
 import LoadingComponent from "../layout/LoadingComponent";
 import { useStore } from "../stores/store";
+import MartialArtDetailedChat from "./MartialArtDetailedChat";
+import MartialArtDetailedHeader from "./MartialArtDetailedHeader";
+import MartialArtDetailedInfo from "./MartialArtDetailedInfo";
+import MartialArtDetailedSidebar from "./MartialArtDetailedSidebar";
 
-export default function MartialArtDetail() {
+export default observer(function MartialArtDetail() {
   const { martialArtStore } = useStore();
   const {
     selectedMartialArt: martialArt,
-    openForm,
-    cancelSelectedMartialArt,
+    loadMartialArt,
+    loadingInitial,
   } = martialArtStore;
+  const { id } = useParams<{ id: string }>();
 
-  if (!martialArt) return <LoadingComponent />;
+  useEffect(() => {
+    if (id) loadMartialArt(id);
+  }, [id, loadMartialArt]);
+  {
+    /*Ovo u uglastim zagradama iznad predstavlja Dependencies*/
+  }
+
+  if (loadingInitial || !martialArt) return <LoadingComponent />;
   return (
-    <Card fluid>
-      <Image src={`/assets/categoryImages/${martialArt.name}.jpg`} />
-
-      <Card.Content extra>
-        <Card.Header>{martialArt.name}</Card.Header>
-        <Card.Description>{martialArt.longDescription}</Card.Description>
-        <Button.Group>
-          <Button
-            onClick={() => openForm(martialArt.id)}
-            basic
-            color="blue"
-            content="Edit"
-          />
-          <Button
-            onClick={cancelSelectedMartialArt}
-            basic
-            color="grey"
-            content="Cancel"
-          />
-        </Button.Group>
-      </Card.Content>
-    </Card>
+    <Grid>
+      <Grid.Column width={10}>
+        <MartialArtDetailedHeader martialArt={martialArt} />
+        <MartialArtDetailedInfo martialArt={martialArt} />
+        <MartialArtDetailedChat />
+      </Grid.Column>
+      <Grid.Column width={6}>
+        <MartialArtDetailedSidebar />
+      </Grid.Column>
+    </Grid>
   );
-}
+});

@@ -7,13 +7,8 @@ export default observer(function MartialArtForm() {
   //initialising new martial art properties
 
   const { martialArtStore } = useStore();
-  const {
-    selectedMartialArt,
-    closeForm,
-    createMartialArt,
-    updateMartialArt,
-    loading,
-  } = martialArtStore;
+  const { selectedMartialArt, createMartialArt, updateMartialArt, loading } =
+    martialArtStore;
 
   const initalState = selectedMartialArt ?? {
     id: 0,
@@ -57,12 +52,7 @@ export default observer(function MartialArtForm() {
           onChange={handleInputChange}
         />
         <Button floated="right" positive type="submit" content="Submit" />
-        <Button
-          onClick={closeForm}
-          floated="right"
-          type="button"
-          content="Cancel"
-        />
+        <Button floated="right" type="button" content="Cancel" />
       </Form>
     </Segment>
   );

@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "react-calendar/dist/Calendar.css";
+import { BrowserRouter } from "react-router-dom";
 import App from "./app/layout/App";
 import { store, StoreContext } from "./app/stores/store";
 import reportWebVitals from "./reportWebVitals";
@@ -9,7 +11,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StoreContext.Provider value={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StoreContext.Provider>
 );
 

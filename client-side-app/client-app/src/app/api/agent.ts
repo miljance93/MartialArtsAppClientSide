@@ -1,14 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 import { MartialArt } from "../models/martialArt";
 import { Result} from "../models/Result";
+import REACT_APP_API_URL from '../../constants';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
         setTimeout(resolve, delay)
     })
 }
-
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = REACT_APP_API_URL;
 
 axios.interceptors.response.use(async response => {
     try{ await sleep(1000)
@@ -31,6 +31,7 @@ const requests = {
 
 const MartialArts ={
     list: () => requests.get<Result<MartialArt[]>>('/martialart'),
+    details: (id: string) => requests.get<MartialArt>(`/martialart/${id}`),
     create: (martialArt: MartialArt) => requests.post<MartialArt>('/martialart', martialArt ),
     edit: (martialArt: MartialArt) => requests.put<MartialArt>('/martialart', martialArt ),
     delete: (id: number) => requests.delete(`/martialart/${id}`),

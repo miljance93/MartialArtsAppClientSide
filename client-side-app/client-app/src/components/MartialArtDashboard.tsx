@@ -1,13 +1,21 @@
 import { Grid } from "semantic-ui-react";
 import MartialArtList from "./MartialArtList";
-import MartialArtDetail from "../app/details/MartialArtDetail";
-import MartialArtForm from "./form/MartialArtForm";
 import { useStore } from "../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import LoadingComponent from "../app/layout/LoadingComponent";
+import MartialArtFilters from "./MartialArtFilters";
 
 export default observer(function MartialArtDashboard() {
   const { martialArtStore } = useStore();
-  const { selectedMartialArt, editMode } = martialArtStore;
+  const { loadMartialArts, martialArtRegistry } = martialArtStore;
+
+  //Sta je useEffect?
+  useEffect(() => {
+    if (martialArtRegistry.size <= 1) loadMartialArts();
+  }, [martialArtStore]);
+  if (martialArtStore.loadingInitial)
+    return <LoadingComponent content="Loading app" />;
 
   return (
     <Grid>
@@ -15,8 +23,7 @@ export default observer(function MartialArtDashboard() {
         <MartialArtList />
       </Grid.Column>
       <Grid.Column width="6">
-        {selectedMartialArt && !editMode && <MartialArtDetail />}
-        {editMode && <MartialArtForm />}
+        <MartialArtFilters />
       </Grid.Column>
     </Grid>
   );

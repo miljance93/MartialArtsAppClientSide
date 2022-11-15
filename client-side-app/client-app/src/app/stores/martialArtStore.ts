@@ -1,27 +1,31 @@
 
-import { makeAutoObservable, runInAction, values } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { MartialArt } from '../models/martialArt';
 
 export default class MartialArtStore{
-
-    martialArts: MartialArt[] = [];
+    martialArtRegistry = new Map<string, MartialArt>();
     selectedMartialArt: MartialArt | undefined = undefined;
     editMode = false;
     loading = false;
     loadingInitial = false;
+    
 
     constructor(){
         makeAutoObservable(this)        
     }
+
+    get martialArtsById() {
+        return Array.from(this.martialArtRegistry.values()).sort((a, b) => a.id - b.id);
+    }
     
 loadMartialArts = async () => {
-    this.setLoadingInitial(true);
+    this.loadingInitial = true;
 
     try{
         const result = await agent.MartialArts.list();
         result.value.forEach(martialArt => {
-            this.martialArts.push(martialArt);
+            this.setMartialArt(martialArt);
         })
         this.setLoadingInitial(false);
     }
@@ -31,33 +35,44 @@ loadMartialArts = async () => {
     }
 }
 
+loadMartialArt = async (id: string) => {
+ let martialArt = this.getMartialArt(id);
+ if(martialArt){
+    this.selectedMartialArt = martialArt;
+ }else{
+    this.loadingInitial = true;
+    try{
+        martialArt = await agent.MartialArts.details(id);
+        this.setMartialArt(martialArt);
+        this.selectedMartialArt = martialArt;
+        this.setLoadingInitial(false);
+    }catch(error){
+        console.log(error);
+        this.setLoadingInitial(false);
+    }
+ }
+}
+
+private setMartialArt = (martialArt: MartialArt) => {
+    this.martialArtRegistry.set(martialArt.id.toString(), martialArt);
+}
+
+private getMartialArt = (id: string) => {
+    return this.martialArtRegistry.get(id);
+}
+
+
 setLoadingInitial = (state: boolean) => {
     this.loadingInitial = state;
 }
 
-selectMartialArt = (id: number) => {
-    this.selectedMartialArt = this.martialArts.find(ma => ma.id == id)
-}
-
-cancelSelectedMartialArt = () => {
-    this.selectedMartialArt = undefined;
-}
-
-openForm = (id? : number) => {
-    id? this.selectMartialArt(id) : this.cancelSelectedMartialArt();
-    this.editMode = true;
-}
-
-closeForm = ()=> {
-    this.editMode = false;
-}
 
 createMartialArt =async (martialArt: MartialArt) => {
     this.loading = true;
     try{
         await agent.MartialArts.create(martialArt);
         runInAction(() => {
-            this.martialArts.push(martialArt);
+            this.martialArtRegistry.set(martialArt.id.toString(), martialArt);
             this.selectedMartialArt = martialArt;
             this.editMode = false;
             this.loading = false;
@@ -75,7 +90,7 @@ updateMartialArt =async (martialArt: MartialArt) => {
     try {
         await agent.MartialArts.edit(martialArt);
         runInAction(() => {
-            this.martialArts = [...this.martialArts.filter(a => a.id !== martialArt.id), martialArt];
+            this.martialArtRegistry.set(martialArt.id.toString(), martialArt)
             this.selectedMartialArt = martialArt;
             this.editMode = false;
             this.loading = false;
@@ -94,8 +109,7 @@ deleteMartialArt =async (id: number) => {
     try {
         await agent.MartialArts.delete(id);
         runInAction(() => {
-            this.martialArts = [...this.martialArts.filter(a => a.id !== id)];
-            if(this.selectedMartialArt?.id === id) this.cancelSelectedMartialArt();
+            this.martialArtRegistry.delete(id.toString());
             this.loading = false;
         })
     } catch (error) {
