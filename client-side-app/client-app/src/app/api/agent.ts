@@ -8,7 +8,7 @@ const sleep = (delay: number) => {
         setTimeout(resolve, delay)
     })
 }
-axios.defaults.baseURL = REACT_APP_API_URL;
+axios.defaults.baseURL = 'https://martialartapp.herokuapp.com/';
 
 axios.interceptors.response.use(async response => {
     try{ await sleep(1000)
