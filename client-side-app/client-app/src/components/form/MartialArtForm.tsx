@@ -1,7 +1,11 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
-import { Button, Form, Segment } from "semantic-ui-react";
+import { Button, FormField, Label, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import MyTextInput from "../../app/common/form/MyTextInput";
+import MyTextArea from "../../app/common/form/MyTextArea";
 
 export default observer(function MartialArtForm() {
   //initialising new martial art properties
@@ -17,43 +21,50 @@ export default observer(function MartialArtForm() {
     longDescription: "",
   };
 
+  const validationSchema = Yup.object({
+    name: Yup.string().required("The name is required"),
+    shortDescription: Yup.string().required("Short description is required"),
+    longDescription: Yup.string().required("Long description is required"),
+  });
+
   const [martialArt, setMartialArt] = useState(initalState);
 
-  function handleInputChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    const { name, value } = event.target;
-    setMartialArt({ ...martialArt, [name]: value });
-  }
+  // function handleChange(
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) {
+  //   const { name, value } = event.target;
+  //   setMartialArt({ ...martialArt, [name]: value });
+  // }
 
-  function OnSubmit() {
-    martialArt.id ? updateMartialArt(martialArt) : createMartialArt(martialArt);
-  }
+  // function OnSubmit() {
+  //   martialArt.id ? updateMartialArt(martialArt) : createMartialArt(martialArt);
+  // }
 
   return (
     <Segment clearing>
-      <Form autoComplete="off" onSubmit={OnSubmit}>
-        <Form.Input
-          placeholder="Martial Art name"
-          value={martialArt.name}
-          name="name"
-          onChange={handleInputChange}
-        />
-        <Form.TextArea
-          placeholder="Long description"
-          name="longDescription"
-          value={martialArt.longDescription}
-          onChange={handleInputChange}
-        />
-        <Form.Input
-          placeholder="Short description"
-          name="shortDescription"
-          value={martialArt.shortDescription}
-          onChange={handleInputChange}
-        />
-        <Button floated="right" positive type="submit" content="Submit" />
-        <Button floated="right" type="button" content="Cancel" />
-      </Form>
+      <Formik
+        validationSchema={validationSchema}
+        enableReinitialize
+        initialValues={martialArt}
+        onSubmit={(values) => console.log(values)}
+      >
+        {({ handleSubmit }) => (
+          <Form className="ui form" autoComplete="off" onSubmit={handleSubmit}>
+            <MyTextInput name="name" placeholder="Martial Art name" />
+            <MyTextArea
+              rows={3}
+              placeholder="Long description"
+              name="longDescription"
+            />
+            <MyTextInput
+              placeholder="Short description"
+              name="shortDescription"
+            />
+            <Button floated="right" positive type="submit" content="Submit" />
+            <Button floated="right" type="button" content="Cancel" />
+          </Form>
+        )}
+      </Formik>
     </Segment>
   );
 });

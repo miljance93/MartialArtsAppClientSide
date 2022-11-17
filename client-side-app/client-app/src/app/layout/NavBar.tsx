@@ -15,6 +15,7 @@ export default function NavBar() {
           Martial Arts
         </Menu.Item>
         <Menu.Item as={NavLink} to="/martialArts" name="Martial Arts" />
+        <Menu.Item as={NavLink} to="/errors" name="Errors" />
         <Menu.Item>
           <Button
             as={NavLink}
