@@ -2,26 +2,7 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { Segment, Header, Comment, Form, Button } from "semantic-ui-react";
 
-interface Props {
-  martialArtId: string;
-}
-
-export default observer(function ActivityDetailedChat() {
-  {
-    /*const { commentStore } = useStore();
-     */
-  }
-  {
-    /*useEffect(() => {
-    if (martialArtId) {
-      commentStore.createHubConnection(martialArtId);
-    }
-    return () => {
-      commentStore.clearComments();
-    };
-  }, [commentStore, martialArtId]); */
-  }
-
+export default observer(function MartialArtDetailedChat() {
   return (
     <>
       <Segment

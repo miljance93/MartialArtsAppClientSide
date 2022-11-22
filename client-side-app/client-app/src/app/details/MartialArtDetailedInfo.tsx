@@ -7,7 +7,7 @@ interface Props {
   martialArt: MartialArt;
 }
 
-export default observer(function ActivityDetailedInfo({ martialArt }: Props) {
+export default observer(function MartialArtDetailedInfo({ martialArt }: Props) {
   return (
     <Segment.Group>
       <Segment attached="top">

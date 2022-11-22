@@ -15,7 +15,7 @@ export default observer(function MartialArtDashboard() {
     if (martialArtRegistry.size <= 1) loadMartialArts();
   }, [martialArtStore]);
   if (martialArtStore.loadingInitial)
-    return <LoadingComponent content="Loading app" />;
+    return <LoadingComponent content="Loading Martial Arts..." />;
 
   return (
     <Grid>

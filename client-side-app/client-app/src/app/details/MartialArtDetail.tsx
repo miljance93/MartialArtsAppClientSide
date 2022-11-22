@@ -21,9 +21,6 @@ export default observer(function MartialArtDetail() {
   useEffect(() => {
     if (id) loadMartialArt(id);
   }, [id, loadMartialArt]);
-  {
-    /*Ovo u uglastim zagradama iznad predstavlja Dependencies*/
-  }
 
   if (loadingInitial || !martialArt) return <LoadingComponent />;
   return (

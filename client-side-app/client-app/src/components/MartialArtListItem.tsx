@@ -31,9 +31,8 @@ export default function MartialArtListItem({ martialArt }: Props) {
       <Segment>
         <span>
           <Icon name="clock" />
-          {/*Cisto da vidim sta je u pitanju*/}
           {martialArt.id}
-          <Icon name="clock" />
+          <Icon name="marker" />
           {martialArt.id}
         </span>
       </Segment>

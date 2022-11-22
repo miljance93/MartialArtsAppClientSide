@@ -5,7 +5,7 @@ import REACT_APP_API_URL from '../../constants';
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { store } from "../stores/store";
-import { config } from "process";
+import { User, UserFormValues } from "../models/user";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -13,6 +13,12 @@ const sleep = (delay: number) => {
     })
 }
 axios.defaults.baseURL = REACT_APP_API_URL;
+
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if(token) config.headers!.Authorization = `Bearer ${token}`
+    return config;
+})
 
 axios.interceptors.response.use(async response => {
         await sleep(1000);
@@ -68,9 +74,16 @@ const MartialArts ={
     delete: (id: number) => requests.delete(`/martialart/${id}`),
 }
 
+const Account = {
+    current: () => requests.get<User>('/account'),
+    login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+    retgister: (user: UserFormValues) => requests.post<User>('/account/register', user)
+}
+
 
 const agent = {
-    MartialArts
+    MartialArts,
+    Account
 }
 
 export default agent;

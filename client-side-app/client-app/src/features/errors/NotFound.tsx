@@ -11,7 +11,7 @@ export default function NotFound() {
       </Header>
       <Segment.Inline>
         <Button as={Link} to="/martialarts" primary>
-          Return to activities page
+          Return to martial arts page
         </Button>
       </Segment.Inline>
     </Segment>

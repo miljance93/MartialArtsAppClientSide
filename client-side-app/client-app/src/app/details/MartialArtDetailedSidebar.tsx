@@ -2,16 +2,8 @@ import React from "react";
 import { Segment, List, Label, Item, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { MartialArt } from "../models/martialArt";
 
-interface Props {
-  martialArt: MartialArt;
-}
-
-export default observer(function ActivityDetailedSidebar() {
-  {
-    /* if (!attendees) return null;*/
-  }
+export default observer(function MartialArtDetailedSidebar() {
   return (
     <>
       <Segment

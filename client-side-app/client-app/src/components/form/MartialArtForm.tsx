@@ -1,11 +1,12 @@
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
-import { Button, FormField, Label, Segment } from "semantic-ui-react";
+import { useState } from "react";
+import { Button, Segment } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import MyTextArea from "../../app/common/form/MyTextArea";
+import MyDateInput from "../../app/common/form/MyDateInput";
 
 export default observer(function MartialArtForm() {
   //initialising new martial art properties
@@ -59,6 +60,13 @@ export default observer(function MartialArtForm() {
             <MyTextInput
               placeholder="Short description"
               name="shortDescription"
+            />
+            <MyDateInput
+              placeholderText="date"
+              name="date"
+              showTimeSelect
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm aa"
             />
             <Button floated="right" positive type="submit" content="Submit" />
             <Button floated="right" type="button" content="Cancel" />

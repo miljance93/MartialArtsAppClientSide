@@ -1,7 +1,8 @@
 import ReactDOM from "react-dom/client";
 import "react-calendar/dist/Calendar.css";
 import "react-toastify/dist/ReactToastify.min.css";
-import { BrowserRouter, Router } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css";
+import { Router } from "react-router-dom";
 import App from "./app/layout/App";
 import { store, StoreContext } from "./app/stores/store";
 import reportWebVitals from "./reportWebVitals";
