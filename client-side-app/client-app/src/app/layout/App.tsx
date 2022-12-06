@@ -50,7 +50,10 @@ function App() {
                   component={MartialArtDashboard}
                 />
                 <Route path="/martialArts/:id" component={MartialArtDetail} />
-                <Route path="/createMartialArt" component={MartialArtForm} />
+                <Route
+                  path={["/createMartialArt", "/manage/:id"]}
+                  component={MartialArtForm}
+                />
                 <Route path="/errors" component={TestErrors} />
                 <Route path="/server-error" component={ServerError} />
                 <Route path="/login" component={LoginForm} />

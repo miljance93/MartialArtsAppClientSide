@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { MartialArt } from "../models/martialArt";
+import { MartialArt, MartialArtFormValues } from "../models/martialArt";
 import { Result} from "../models/Result";
 import REACT_APP_API_URL from '../../constants';
 import { toast } from "react-toastify";
@@ -12,7 +12,7 @@ const sleep = (delay: number) => {
         setTimeout(resolve, delay)
     })
 }
-axios.defaults.baseURL = REACT_APP_API_URL;
+axios.defaults.baseURL = "https://localhost:5001/api";
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;
@@ -69,9 +69,10 @@ const requests = {
 const MartialArts ={
     list: () => requests.get<Result<MartialArt[]>>('/martialart'),
     details: (id: string) => requests.get<MartialArt>(`/martialart/${id}`),
-    create: (martialArt: MartialArt) => requests.post<MartialArt>('/martialart', martialArt ),
-    edit: (martialArt: MartialArt) => requests.put<MartialArt>('/martialart', martialArt ),
+    create: (martialArt: MartialArtFormValues) => requests.post<void>('/martialart', martialArt ),
+    edit: (martialArt: MartialArtFormValues) => requests.put<void>('/martialart', martialArt ),
     delete: (id: number) => requests.delete(`/martialart/${id}`),
+    attend: (id: string) => requests.post<void>(`/martialart/${id}/attend`, {})
 }
 
 const Account = {
