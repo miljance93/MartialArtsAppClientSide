@@ -22,9 +22,14 @@ export default observer(function HomePage() {
         </Header>
         {userStore.IsLoggedIn ? (
           <>
-            <Header as="h2" inverted content="Welcome to Martial Arts" />
+            <Header
+              as="h2"
+              inverted
+              content={`Welcome ${userStore.user?.displayName}`}
+              color="teal"
+            />
             <Button as={Link} to="/martialArts" size="huge" inverted>
-              Go to Martial Arts!
+              Go to Martial Arts
             </Button>
           </>
         ) : (

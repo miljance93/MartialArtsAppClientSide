@@ -35,9 +35,14 @@ export default function MartialArtListItem({ martialArt }: Props) {
               <Item.Header as={Link} to={`/martialArts/${martialArt.id}`}>
                 {martialArt.name}
               </Item.Header>
-              <Item.Description>
-                Hosted by {martialArt.coach?.displayName}
-              </Item.Description>
+              {martialArt.hostUsername && (
+                <Item.Description>
+                  Hosted by{" "}
+                  <Link to={`/profile/${martialArt.hostUsername}`}>
+                    {martialArt.coach?.displayName}
+                  </Link>
+                </Item.Description>
+              )}
               {martialArt.isCoach && (
                 <Item.Description>
                   <Label basic color="orange">

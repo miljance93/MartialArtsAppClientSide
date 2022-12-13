@@ -22,7 +22,7 @@ export default observer(function MartialArtListItemAttendee({
             <List.Item
               key={attendee.username}
               as={Link}
-              to={`/profiles/${attendee.username}`}
+              to={`/profile/${attendee.username}`}
             >
               <Image
                 size="mini"

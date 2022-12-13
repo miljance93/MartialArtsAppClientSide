@@ -1,11 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { MartialArt, MartialArtFormValues } from "../models/martialArt";
-import { Result} from "../models/Result";
-import REACT_APP_API_URL from '../../constants';
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
+import { Photo, Profile } from "../models/profile";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -67,7 +66,7 @@ const requests = {
 }
 
 const MartialArts ={
-    list: () => requests.get<Result<MartialArt[]>>('/martialart'),
+    list: () => requests.get<MartialArt[]>('/martialart'),
     details: (id: string) => requests.get<MartialArt>(`/martialart/${id}`),
     create: (martialArt: MartialArtFormValues) => requests.post<void>('/martialart', martialArt ),
     edit: (martialArt: MartialArtFormValues) => requests.put<void>('/martialart', martialArt ),
@@ -78,13 +77,27 @@ const MartialArts ={
 const Account = {
     current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
-    retgister: (user: UserFormValues) => requests.post<User>('/account/register', user)
+    register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+}
+
+const Profiles ={
+    get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+    uploadPhoto: (file: Blob) => {
+        let formData = new FormData();
+        formData.append('File', file);
+        return axios.post<Photo>('photos', formData, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+    },
+    setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
+    deletePhoto: (id: string) => requests.delete(`/photos/${id}`)
 }
 
 
 const agent = {
     MartialArts,
-    Account
+    Account,
+    Profiles
 }
 
 export default agent;

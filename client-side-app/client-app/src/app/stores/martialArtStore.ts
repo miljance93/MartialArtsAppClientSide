@@ -1,6 +1,3 @@
-
-import { timeStamp } from 'console';
-import { run } from 'jest';
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { MartialArt, MartialArtFormValues } from '../models/martialArt';
@@ -28,7 +25,7 @@ loadMartialArts = async () => {
 
     try{
         const result = await agent.MartialArts.list();
-        result.value.forEach(martialArt => {
+        result.forEach(martialArt => {
             this.setMartialArt(martialArt);
         })
         this.setLoadingInitial(false);

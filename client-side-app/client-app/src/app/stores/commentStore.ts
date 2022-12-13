@@ -15,7 +15,7 @@ export default class CommentStore{
         if(store.martialArtStore.selectedMartialArt){
             this.hubConnection = new HubConnectionBuilder()
                 .withUrl("https://localhost:5001/chat?martialArtId=" + martialArtId, {
-                    //accessTokenFactory: () => store.userStore.user?.token
+                    accessTokenFactory: () => store.userStore.user?.token!
                 })
                 .withAutomaticReconnect()
                 .configureLogging(LogLevel.Information)
@@ -43,7 +43,7 @@ export default class CommentStore{
     }
 
     addComment = async (values: any) => {
-        values.activityId = store.martialArtStore.selectedMartialArt?.id;
+        values.martialArtId = store.martialArtStore.selectedMartialArt?.id;
         try {
             await this.hubConnection?.invoke('SendComment', values);
         } catch (error) {

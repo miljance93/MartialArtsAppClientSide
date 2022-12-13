@@ -28,7 +28,7 @@ export default observer(function MartialArtDetail() {
       <Grid.Column width={10}>
         <MartialArtDetailedHeader martialArt={martialArt} />
         <MartialArtDetailedInfo martialArt={martialArt} />
-        <MartialArtDetailedChat />
+        <MartialArtDetailedChat martialArtId={martialArt.id} />
       </Grid.Column>
       <Grid.Column width={6}>
         <MartialArtDetailedSidebar martialArt={martialArt} />

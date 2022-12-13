@@ -6,7 +6,6 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import MyTextArea from "../../app/common/form/MyTextArea";
-import MyDateInput from "../../app/common/form/MyDateInput";
 import { MartialArtFormValues } from "../../app/models/martialArt";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
