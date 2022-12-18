@@ -173,4 +173,19 @@ cancelMartialArtToggle = async () => {
     }
 }
 
+clearSelectedMartialArt = () => {
+    this.selectedMartialArt = undefined;
+}
+
+updateAttendeeFollowing = (username: string) =>{
+    this.martialArtRegistry.forEach(martialArt => {
+        martialArt.attendees.forEach(attendee => {
+            if(attendee.username === username){
+                attendee.following ? attendee.followersCount-- : attendee.followersCount++;
+                attendee.following = !attendee.following;
+            }
+        })
+    })
+}
+
 }

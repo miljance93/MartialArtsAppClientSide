@@ -15,12 +15,14 @@ export default observer(function MartialArtDetail() {
     selectedMartialArt: martialArt,
     loadMartialArt,
     loadingInitial,
+    clearSelectedMartialArt,
   } = martialArtStore;
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     if (id) loadMartialArt(id);
-  }, [id, loadMartialArt]);
+    return () => clearSelectedMartialArt();
+  }, [id, loadMartialArt, clearSelectedMartialArt]);
 
   if (loadingInitial || !martialArt) return <LoadingComponent />;
   return (

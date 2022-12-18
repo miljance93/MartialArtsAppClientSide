@@ -69,7 +69,7 @@ const MartialArts ={
     list: () => requests.get<MartialArt[]>('/martialart'),
     details: (id: string) => requests.get<MartialArt>(`/martialart/${id}`),
     create: (martialArt: MartialArtFormValues) => requests.post<void>('/martialart', martialArt ),
-    edit: (martialArt: MartialArtFormValues) => requests.put<void>('/martialart', martialArt ),
+    edit: (martialArt: MartialArtFormValues) => requests.put<void>(`/martialart/${martialArt.id}`, martialArt ),
     delete: (id: number) => requests.delete(`/martialart/${id}`),
     attend: (id: string) => requests.post<void>(`/martialart/${id}/attend`, {})
 }
@@ -90,7 +90,10 @@ const Profiles ={
         })
     },
     setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
-    deletePhoto: (id: string) => requests.delete(`/photos/${id}`)
+    deletePhoto: (id: string) => requests.delete(`/photos/${id}`),
+    updateFollowing: (username: string) => requests.post(`/follow/${username}`, {}),
+    listFollowings: (username: string, predicate: string) => 
+        requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
 }
 
 
