@@ -4,10 +4,10 @@ import MartialArtListItem from "./MartialArtListItem";
 
 export default observer(function MartialArtList() {
   const { martialArtStore } = useStore();
-  const { martialArtsById } = martialArtStore;
+  const { martialArtsByDate } = martialArtStore;
   return (
     <>
-      {martialArtsById.map((martialArt) => (
+      {martialArtsByDate.map((martialArt) => (
         <MartialArtListItem key={martialArt.id} martialArt={martialArt} />
       ))}
     </>

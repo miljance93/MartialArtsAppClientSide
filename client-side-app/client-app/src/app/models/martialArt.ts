@@ -6,6 +6,10 @@ export interface MartialArt {
     shortDescription: string;
     longDescription: string;
     hostUsername: string; 
+    category: string;
+    city: string;
+    venue: string;
+    date: Date | null;
     isCancelled: boolean;
     isGoing: boolean;
     isCoach: boolean;
@@ -24,6 +28,11 @@ export interface MartialArt {
     name: string = "";
     shortDescription: string = "";
     longDescription: string = "";
+    date: Date | null = null;
+    city: string = "";
+    venue: string = "";
+    category: string = "";
+    
 
     constructor(martialArt?: MartialArtFormValues){
       if(martialArt){
@@ -31,6 +40,10 @@ export interface MartialArt {
         this.name = martialArt.name;
         this.longDescription = martialArt.longDescription;
         this.shortDescription = martialArt.shortDescription;
+        this.date = martialArt.date;
+        this.venue = martialArt.venue;
+        this.city = martialArt.city;
+        this.category = martialArt.category;
       }
     }
   }

@@ -10,6 +10,7 @@ import { MartialArtFormValues } from "../../app/models/martialArt";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import MyDateInput from "../../app/common/form/MyDateInput";
 
 export default observer(function MartialArtForm() {
   //initialising new martial art properties
@@ -38,6 +39,9 @@ export default observer(function MartialArtForm() {
     name: Yup.string().required("The Martial Art name is required"),
     shortDescription: Yup.string().required("Short description is required"),
     longDescription: Yup.string().required("Long description is required"),
+    venue: Yup.string().required("Venue is required"),
+    city: Yup.string().required("City is required"),
+    date: Yup.string().required("Date is required").nullable(),
   });
 
   const [martialArt, setMartialArt] = useState<MartialArtFormValues>(
@@ -54,9 +58,7 @@ export default observer(function MartialArtForm() {
   function handleFormSubmit(martiaArt: MartialArtFormValues) {
     if (!martiaArt.id) {
       let newMartialArt = {
-        name: martiaArt.name,
-        shortDescription: martiaArt.shortDescription,
-        longDescription: martiaArt.longDescription,
+        ...martiaArt,
         id: uuid(),
       };
       createMartialArt(newMartialArt).then(() =>
@@ -69,7 +71,8 @@ export default observer(function MartialArtForm() {
     }
   }
 
-  if (loadingInitial) return <LoadingComponent content="Loading activity..." />;
+  if (loadingInitial)
+    return <LoadingComponent content="Loading Martial Art..." />;
 
   return (
     <Segment clearing>
@@ -92,13 +95,17 @@ export default observer(function MartialArtForm() {
               placeholder="Short description"
               name="shortDescription"
             />
-            {/* <MyDateInput
-              placeholderText="date"
+
+            <MyDateInput
               name="date"
+              placeholderText="Date"
               showTimeSelect
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm aa"
-            /> */}
+            />
+            <Header content="Location Details" sub color="teal" />
+            <MyTextInput name="venue" placeholder="Venue" />
+            <MyTextInput name="city" placeholder="City" />
             <Button
               disabled={isSubmitting || !dirty || !isValid}
               loading={isSubmitting}

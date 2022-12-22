@@ -16,8 +16,9 @@ export default class MartialArtStore{
         makeAutoObservable(this)        
     }
 
-    get martialArtsById() {
-        return Array.from(this.martialArtRegistry.values()).sort((a, b) => a.id.length - b.id.length);
+    get martialArtsByDate() {
+        return Array.from(this.martialArtRegistry.values()).sort((a, b) =>
+            a.date!.getTime() - b.date!.getTime());
     }
     
 loadMartialArts = async () => {
@@ -66,6 +67,7 @@ private setMartialArt = (martialArt: MartialArt) => {
         martialArt.isCoach = martialArt.hostUsername === user.username;
         martialArt.coach = martialArt.attendees?.find(x => x.username === martialArt.hostUsername);
     }
+    martialArt.date = new Date(martialArt.date!);
     this.martialArtRegistry.set(martialArt.id.toString(), martialArt);
 }
 
@@ -78,9 +80,8 @@ setLoadingInitial = (state: boolean) => {
     this.loadingInitial = state;
 }
 
-
 createMartialArt =async (martialArt: MartialArtFormValues) => {
-    const user = store.userStore.user;
+    const user = store.userStore!.user;
     const attendee = new Profile(user!);
     try{
         await agent.MartialArts.create(martialArt);

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Segment, Header, Comment, Button, Loader } from "semantic-ui-react";
 import { useStore } from "../stores/store";
 import * as Yup from "yup";
-import { formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 
 interface Props {
   martialArtId: string;

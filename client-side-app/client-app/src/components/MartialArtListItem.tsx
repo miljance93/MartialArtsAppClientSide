@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
@@ -64,9 +65,9 @@ export default function MartialArtListItem({ martialArt }: Props) {
       <Segment>
         <span>
           <Icon name="clock" />
-          {martialArt.id}
+          {format(martialArt.date!, "dd MMM yyyy h:mm aa")}
           <Icon name="marker" />
-          {martialArt.id}
+          {martialArt.city}
         </span>
       </Segment>
       <Segment>
