@@ -62,8 +62,9 @@ export default function MartialArtListItem({ martialArt }: Props) {
         <span>
           <Icon name="clock" />
           {format(martialArt.date!, "dd MMM yyyy h:mm aa")}
+          <br />
           <Icon name="marker" />
-          {martialArt.city}
+          {martialArt.venue}, {martialArt.city}
         </span>
       </Segment>
       <Segment>
