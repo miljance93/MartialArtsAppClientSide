@@ -4,9 +4,9 @@ import { Button, Header, Image, Item, Label, Segment } from "semantic-ui-react";
 import { MartialArt } from "../models/martialArt";
 import { useStore } from "../stores/store";
 
-const martialArtImageStyle = {
-  filter: "brightness(30%)",
-};
+// const martialArtImageStyle = {
+//   filter: "brightness(30%)",
+// };
 
 const martialArtImageTextStyle = {
   position: "absolute",

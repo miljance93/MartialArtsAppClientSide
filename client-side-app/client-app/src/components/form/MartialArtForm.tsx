@@ -17,14 +17,8 @@ export default observer(function MartialArtForm() {
 
   const history = useHistory();
   const { martialArtStore } = useStore();
-  const {
-    selectedMartialArt,
-    createMartialArt,
-    updateMartialArt,
-    loading,
-    loadingInitial,
-    loadMartialArt,
-  } = martialArtStore;
+  const { createMartialArt, updateMartialArt, loadingInitial, loadMartialArt } =
+    martialArtStore;
 
   const { id } = useParams<{ id: string }>();
 

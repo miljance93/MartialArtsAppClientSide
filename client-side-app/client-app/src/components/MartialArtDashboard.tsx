@@ -13,7 +13,7 @@ export default observer(function MartialArtDashboard() {
   //Sta je useEffect?
   useEffect(() => {
     if (martialArtRegistry.size <= 1) loadMartialArts();
-  }, [martialArtStore]);
+  }, [martialArtStore, loadMartialArts, martialArtRegistry.size]);
   if (martialArtStore.loadingInitial)
     return <LoadingComponent content="Loading Martial Arts..." />;
 

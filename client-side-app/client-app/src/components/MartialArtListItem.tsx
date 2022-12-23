@@ -11,9 +11,6 @@ interface Props {
 }
 
 export default function MartialArtListItem({ martialArt }: Props) {
-  const { martialArtStore } = useStore();
-  const { deleteMartialArt } = martialArtStore;
-
   return (
     <Segment.Group>
       <Segment>
