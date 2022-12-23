@@ -5,6 +5,7 @@ import { history } from "../..";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
 import { Photo, Profile } from "../models/profile";
+import { PaginatedResult } from "../models/pagination";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -21,9 +22,13 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(async response => {
         await sleep(1000);
+        const pagination = response.headers['pagination'];
+        if(pagination){
+            response.data = new PaginatedResult(response.data, JSON.parse(pagination));
+            return response as AxiosResponse<PaginatedResult<any>>;
+        }
         return response;
 }, (error: AxiosError) => {
-    {/*Dodao sam data: any; status: number. Zasto? :D */}
     const {data, status, config}: {data: any; status: number, config: any} = error.response!;
     switch(status){
         case 400:
@@ -66,7 +71,7 @@ const requests = {
 }
 
 const MartialArts ={
-    list: () => requests.get<MartialArt[]>('/martialart'),
+    list: (params: URLSearchParams) => axios.get<PaginatedResult<MartialArt[]>>('/martialart', {params}).then(responseBody),
     details: (id: string) => requests.get<MartialArt>(`/martialart/${id}`),
     create: (martialArt: MartialArtFormValues) => requests.post<void>('/martialart', martialArt ),
     edit: (martialArt: MartialArtFormValues) => requests.put<void>(`/martialart/${martialArt.id}`, martialArt ),

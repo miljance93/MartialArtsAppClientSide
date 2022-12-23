@@ -37,7 +37,9 @@ export default observer(function MartialArtDetailedInfo({ martialArt }: Props) {
             <Icon name="marker" size="large" color="teal" />
           </Grid.Column>
           <Grid.Column width={15}>
-            <p>{martialArt.city}</p>
+            <p>
+              {martialArt.venue}, {martialArt.city}
+            </p>
           </Grid.Column>
         </Grid>
       </Segment>

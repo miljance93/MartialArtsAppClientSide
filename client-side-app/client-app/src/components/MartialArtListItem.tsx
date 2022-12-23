@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { MartialArt } from "../app/models/martialArt";
-import { useStore } from "../app/stores/store";
 import MartialArtListItemAttendee from "./MartialArtListItemAttendee";
 
 interface Props {

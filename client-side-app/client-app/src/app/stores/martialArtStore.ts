@@ -3,6 +3,7 @@ import agent from '../api/agent';
 import { MartialArt, MartialArtFormValues } from '../models/martialArt';
 import { Profile } from '../models/profile';
 import { store } from './store';
+import { Pagination, PagingParams } from '../models/pagination';
 
 export default class MartialArtStore{
     martialArtRegistry = new Map<string, MartialArt>();
@@ -10,10 +11,23 @@ export default class MartialArtStore{
     editMode = false;
     loading = false;
     loadingInitial = false;
+    pagination: Pagination | null = null;
+    pagingParams = new PagingParams();
     
 
     constructor(){
         makeAutoObservable(this)        
+    }
+
+    setPagingParams = (pagingParams: PagingParams) => {
+        this.pagingParams = pagingParams;
+    }
+
+    get axiosParams() {
+        const params = new URLSearchParams();
+        params.append('pageNumber', this.pagingParams.pageNumber.toString());
+        params.append('pageSize', this.pagingParams.pageSize.toString());
+        return params;
     }
 
     get martialArtsByDate() {
@@ -25,16 +39,21 @@ loadMartialArts = async () => {
     this.loadingInitial = true;
 
     try{
-        const result = await agent.MartialArts.list();
-        result.forEach(martialArt => {
+        const result = await agent.MartialArts.list(this.axiosParams);
+        result.data.forEach(martialArt => {
             this.setMartialArt(martialArt);
         })
+        this.setPagination(result.pagination);
         this.setLoadingInitial(false);
     }
     catch(error){
         console.log(error);
         this.setLoadingInitial(false);
     }
+}
+
+setPagination = (pagination: Pagination) =>{
+    this.pagination = pagination;
 }
 
 loadMartialArt = async (id: string) => {
