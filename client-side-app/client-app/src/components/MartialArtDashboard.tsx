@@ -3,7 +3,6 @@ import MartialArtList from "./MartialArtList";
 import { useStore } from "../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import LoadingComponent from "../app/layout/LoadingComponent";
 import MartialArtFilters from "./MartialArtFilters";
 import { PagingParams } from "../app/models/pagination";
 import InfiniteScroll from "react-infinite-scroller";
